@@ -19,3 +19,7 @@ services:
     #   - 3000:3000
     container_name: wl-client
     restart: always
+networks:
+  default:
+    external: true
+    name: nginx
