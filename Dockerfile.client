@@ -9,7 +9,7 @@ RUN yarn
 COPY . .
 # RUN yarn migration:run
 # RUN yarn prisma generate
-# RUN yarn zg
+RUN yarn zg
 RUN yarn build client --skip-nx-cache
 # RUN yarn seeder:run
 
