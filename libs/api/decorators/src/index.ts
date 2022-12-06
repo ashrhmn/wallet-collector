@@ -15,12 +15,16 @@ export const CurrentUser = createParamDecorator(
       http: context.switchToHttp().getRequest(),
       graphql: GqlExecutionContext.create(context).getContext().req,
     }[context.getType() as string];
+    console.log({ req });
+
     if (!req)
       throw new HttpException(
         'Not implemented',
         HttpStatus.INTERNAL_SERVER_ERROR
       );
-    return getUser(req);
+    const user = getUser(req);
+    console.log({ user });
+    return user;
   }
 );
 
