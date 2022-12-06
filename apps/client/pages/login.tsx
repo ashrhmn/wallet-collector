@@ -12,11 +12,9 @@ const LoginPage = () => {
   useEffect(() => {
     if (authUser) router.push('/dashboard');
   }, [authUser, router]);
-  // useEffect(() => {
-  //   if (authUserStatus === 'success') router.push('/dashboard');
-  // }, [authUserStatus, router]);
-  const [username, setUsername] = useState('ash');
-  const [password, setPassword] = useState('ash');
+
+  const [username, setUsername] = useState('');
+  const [password, setPassword] = useState('');
   const handleLogin = async () => {
     const {
       login: { accessToken, refreshToken },
@@ -31,33 +29,41 @@ const LoginPage = () => {
     );
     localStorage.setItem('access_token', accessToken);
     localStorage.setItem('refresh_token', refreshToken);
-    // console.log({ accessToken, refreshToken });
+
     queryClient.invalidateQueries(['auth-user']);
     router.push('/dashboard');
   };
 
-  // if (authUserStatus === 'error' || !!failureCount)
   if (authUser === null)
     return (
-      <div>
-        <div>
-          <div>
+      <div className="w-full h-[100vh] flex items-center justify-center">
+        <div className="border-2 rounded border-gray-300 p-3">
+          <div className="flex flex-col mt-2">
             <h1>Username or Email</h1>
             <input
+              className="border-2 border-gray-300 rounded w-80 p-1"
               type="text"
               value={username}
               onChange={(e) => setUsername(e.target.value)}
             />
           </div>
-          <div>
+          <div className="flex flex-col mt-2">
             <h1>Password</h1>
             <input
+              className="border-2 border-gray-300 rounded w-80 p-1"
               type="password"
               value={password}
               onChange={(e) => setPassword(e.target.value)}
             />
           </div>
-          <button onClick={handleLogin}>Login</button>
+          <div className="flex justify-center mt-4">
+            <button
+              className="bg-blue-700 text-white p-2 rounded"
+              onClick={handleLogin}
+            >
+              Login
+            </button>
+          </div>
         </div>
       </div>
     );

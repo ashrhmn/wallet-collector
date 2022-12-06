@@ -10,6 +10,9 @@
     "zg": "zeus schema.graphql ./libs/generated/zeus/src/",
     "predev": "prisma generate && npm run zg"
   },
+  "prisma": {
+    "seed": "ts-node prisma/seed.ts"
+  },
   "private": true,
   "dependencies": {
     "@nestjs/apollo": "^10.1.6",
