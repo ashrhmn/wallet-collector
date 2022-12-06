@@ -1,0 +1,582 @@
+# ------------------------------------------------------
+# THIS FILE WAS AUTOMATICALLY GENERATED (DO NOT MODIFY)
+# ------------------------------------------------------
+
+input EnumROLENullableListFilter {
+  equals: [ROLE!]
+  has: ROLE
+  hasEvery: [ROLE!]
+  hasSome: [ROLE!]
+  isEmpty: Boolean
+}
+
+type ICurrentUser {
+  email: String!
+  id: ID!
+  roles: [ROLE!]
+  username: String!
+}
+
+input IntFilter {
+  equals: Int
+  gt: Int
+  gte: Int
+  in: [Int!]
+  lt: Int
+  lte: Int
+  not: NestedIntFilter
+  notIn: [Int!]
+}
+
+input IntNullableFilter {
+  equals: Int
+  gt: Int
+  gte: Int
+  in: [Int!]
+  lt: Int
+  lte: Int
+  not: NestedIntNullableFilter
+  notIn: [Int!]
+}
+
+type LoginResponseDto {
+  accessToken: String!
+  refreshToken: String!
+}
+
+type Mutation {
+  addWalletAddresses(data: [WalletAddressCreateManyInput!]!, skipDuplicates: Boolean): String!
+  createUser(data: UserCreateInput!): User!
+  createUserProject(data: ProjectCreateInputWithoutAuthor!): Project!
+  deleteProject(where: ProjectWhereUniqueInput!): String!
+}
+
+input NestedIntFilter {
+  equals: Int
+  gt: Int
+  gte: Int
+  in: [Int!]
+  lt: Int
+  lte: Int
+  not: NestedIntFilter
+  notIn: [Int!]
+}
+
+input NestedIntNullableFilter {
+  equals: Int
+  gt: Int
+  gte: Int
+  in: [Int!]
+  lt: Int
+  lte: Int
+  not: NestedIntNullableFilter
+  notIn: [Int!]
+}
+
+input NestedStringFilter {
+  contains: String
+  endsWith: String
+  equals: String
+  gt: String
+  gte: String
+  in: [String!]
+  lt: String
+  lte: String
+  not: NestedStringFilter
+  notIn: [String!]
+  startsWith: String
+}
+
+input NestedStringNullableFilter {
+  contains: String
+  endsWith: String
+  equals: String
+  gt: String
+  gte: String
+  in: [String!]
+  lt: String
+  lte: String
+  not: NestedStringNullableFilter
+  notIn: [String!]
+  startsWith: String
+}
+
+type Project {
+  _count: ProjectCount!
+  author: User!
+  authorId: Int!
+  id: ID!
+  name: String
+  walletAddresses: [WalletAddress!]
+}
+
+type ProjectAvgAggregate {
+  authorId: Float
+  id: Float
+}
+
+type ProjectCount {
+  walletAddresses: Int!
+}
+
+type ProjectCountAggregate {
+  _all: Int!
+  authorId: Int!
+  id: Int!
+  name: Int!
+}
+
+input ProjectCreateInputWithoutAuthor {
+  name: String
+  walletAddresses: WalletAddressCreateNestedManyWithoutProjectInput
+}
+
+input ProjectCreateManyAuthorInput {
+  id: Int
+  name: String
+}
+
+input ProjectCreateManyAuthorInputEnvelope {
+  data: [ProjectCreateManyAuthorInput!]!
+  skipDuplicates: Boolean
+}
+
+input ProjectCreateNestedManyWithoutAuthorInput {
+  connect: [ProjectWhereUniqueInput!]
+  connectOrCreate: [ProjectCreateOrConnectWithoutAuthorInput!]
+  create: [ProjectCreateWithoutAuthorInput!]
+  createMany: ProjectCreateManyAuthorInputEnvelope
+}
+
+input ProjectCreateNestedOneWithoutWalletAddressesInput {
+  connect: ProjectWhereUniqueInput
+  connectOrCreate: ProjectCreateOrConnectWithoutWalletAddressesInput
+  create: ProjectCreateWithoutWalletAddressesInput
+}
+
+input ProjectCreateOrConnectWithoutAuthorInput {
+  create: ProjectCreateWithoutAuthorInput!
+  where: ProjectWhereUniqueInput!
+}
+
+input ProjectCreateOrConnectWithoutWalletAddressesInput {
+  create: ProjectCreateWithoutWalletAddressesInput!
+  where: ProjectWhereUniqueInput!
+}
+
+input ProjectCreateWithoutAuthorInput {
+  name: String
+  walletAddresses: WalletAddressCreateNestedManyWithoutProjectInput
+}
+
+input ProjectCreateWithoutWalletAddressesInput {
+  author: UserCreateNestedOneWithoutCreatedProjectsInput!
+  name: String
+}
+
+input ProjectListRelationFilter {
+  every: ProjectWhereInput
+  none: ProjectWhereInput
+  some: ProjectWhereInput
+}
+
+type ProjectMaxAggregate {
+  authorId: Int
+  id: Int
+  name: String
+}
+
+type ProjectMinAggregate {
+  authorId: Int
+  id: Int
+  name: String
+}
+
+input ProjectOrderByRelationAggregateInput {
+  _count: SortOrder
+}
+
+input ProjectOrderByWithRelationInput {
+  author: UserOrderByWithRelationInput
+  authorId: SortOrder
+  id: SortOrder
+  name: SortOrder
+  walletAddresses: WalletAddressOrderByRelationAggregateInput
+}
+
+input ProjectRelationFilter {
+  is: ProjectWhereInput
+  isNot: ProjectWhereInput
+}
+
+enum ProjectScalarFieldEnum {
+  authorId
+  id
+  name
+}
+
+type ProjectSumAggregate {
+  authorId: Int
+  id: Int
+}
+
+input ProjectWhereInput {
+  AND: [ProjectWhereInput!]
+  NOT: [ProjectWhereInput!]
+  OR: [ProjectWhereInput!]
+  author: UserRelationFilter
+  authorId: IntFilter
+  id: IntFilter
+  name: StringNullableFilter
+  walletAddresses: WalletAddressListRelationFilter
+}
+
+input ProjectWhereInputWithoutAuthor {
+  AND: [ProjectWhereInput!]
+  NOT: [ProjectWhereInput!]
+  OR: [ProjectWhereInput!]
+  id: IntFilter
+  name: StringNullableFilter
+  walletAddresses: WalletAddressListRelationFilter
+}
+
+input ProjectWhereUniqueInput {
+  id: Int
+}
+
+type Query {
+  currentUser: ICurrentUser!
+  getAddressesByProject(cursor: WalletAddressWhereUniqueInput, distinct: [WalletAddressScalarFieldEnum!], orderBy: [WalletAddressOrderByWithRelationInput!], skip: Int, take: Int, where: WalletAddressWhereInput): [WalletAddress!]!
+  getOneProject(where: ProjectWhereUniqueInput!): Project!
+  getUserProjects(cursor: ProjectWhereUniqueInput, distinct: [ProjectScalarFieldEnum!], orderBy: [ProjectOrderByWithRelationInput!], skip: Int, take: Int, where: ProjectWhereInputWithoutAuthor): [Project!]!
+  login(password: String!, usernameOrEmail: String!): LoginResponseDto!
+  refreshToken: LoginResponseDto!
+  walletAddressExists(cursor: WalletAddressWhereUniqueInput, distinct: [WalletAddressScalarFieldEnum!], orderBy: [WalletAddressOrderByWithRelationInput!], skip: Int, take: Int, where: WalletAddressWhereInput): Boolean!
+}
+
+enum QueryMode {
+  default
+  insensitive
+}
+
+enum ROLE {
+  ADMIN
+  USER
+}
+
+enum SortOrder {
+  asc
+  desc
+}
+
+input StringFilter {
+  contains: String
+  endsWith: String
+  equals: String
+  gt: String
+  gte: String
+  in: [String!]
+  lt: String
+  lte: String
+  mode: QueryMode
+  not: NestedStringFilter
+  notIn: [String!]
+  startsWith: String
+}
+
+input StringNullableFilter {
+  contains: String
+  endsWith: String
+  equals: String
+  gt: String
+  gte: String
+  in: [String!]
+  lt: String
+  lte: String
+  mode: QueryMode
+  not: NestedStringNullableFilter
+  notIn: [String!]
+  startsWith: String
+}
+
+type User {
+  _count: UserCount!
+  addedWalletAddresses: [WalletAddress!]
+  createdProjects: [Project!]
+  email: String!
+  id: ID!
+  roles: [ROLE!]
+  username: String!
+}
+
+type UserAvgAggregate {
+  id: Float
+}
+
+type UserCount {
+  addedWalletAddresses: Int!
+  createdProjects: Int!
+}
+
+type UserCountAggregate {
+  _all: Int!
+  email: Int!
+  id: Int!
+  roles: Int!
+  username: Int!
+}
+
+input UserCreateInput {
+  addedWalletAddresses: WalletAddressCreateNestedManyWithoutAddedByInput
+  createdProjects: ProjectCreateNestedManyWithoutAuthorInput
+  email: String!
+  password: String!
+  roles: UserCreaterolesInput
+  username: String!
+}
+
+input UserCreateNestedOneWithoutAddedWalletAddressesInput {
+  connect: UserWhereUniqueInput
+  connectOrCreate: UserCreateOrConnectWithoutAddedWalletAddressesInput
+  create: UserCreateWithoutAddedWalletAddressesInput
+}
+
+input UserCreateNestedOneWithoutCreatedProjectsInput {
+  connect: UserWhereUniqueInput
+  connectOrCreate: UserCreateOrConnectWithoutCreatedProjectsInput
+  create: UserCreateWithoutCreatedProjectsInput
+}
+
+input UserCreateOrConnectWithoutAddedWalletAddressesInput {
+  create: UserCreateWithoutAddedWalletAddressesInput!
+  where: UserWhereUniqueInput!
+}
+
+input UserCreateOrConnectWithoutCreatedProjectsInput {
+  create: UserCreateWithoutCreatedProjectsInput!
+  where: UserWhereUniqueInput!
+}
+
+input UserCreateWithoutAddedWalletAddressesInput {
+  createdProjects: ProjectCreateNestedManyWithoutAuthorInput
+  email: String!
+  password: String!
+  roles: UserCreaterolesInput
+  username: String!
+}
+
+input UserCreateWithoutCreatedProjectsInput {
+  addedWalletAddresses: WalletAddressCreateNestedManyWithoutAddedByInput
+  email: String!
+  password: String!
+  roles: UserCreaterolesInput
+  username: String!
+}
+
+input UserCreaterolesInput {
+  set: [ROLE!]!
+}
+
+type UserMaxAggregate {
+  email: String
+  id: Int
+  username: String
+}
+
+type UserMinAggregate {
+  email: String
+  id: Int
+  username: String
+}
+
+input UserOrderByWithRelationInput {
+  addedWalletAddresses: WalletAddressOrderByRelationAggregateInput
+  createdProjects: ProjectOrderByRelationAggregateInput
+  email: SortOrder
+  id: SortOrder
+  password: SortOrder
+  roles: SortOrder
+  username: SortOrder
+}
+
+input UserRelationFilter {
+  is: UserWhereInput
+  isNot: UserWhereInput
+}
+
+type UserSumAggregate {
+  id: Int
+}
+
+input UserWhereInput {
+  AND: [UserWhereInput!]
+  NOT: [UserWhereInput!]
+  OR: [UserWhereInput!]
+  addedWalletAddresses: WalletAddressListRelationFilter
+  createdProjects: ProjectListRelationFilter
+  email: StringFilter
+  id: IntFilter
+  password: StringFilter
+  roles: EnumROLENullableListFilter
+  username: StringFilter
+}
+
+input UserWhereUniqueInput {
+  email: String
+  id: Int
+  username: String
+}
+
+type WalletAddress {
+  addedBy: User
+  addedByUserId: Int
+  address: String!
+  id: ID!
+  project: Project!
+  projectId: Int!
+}
+
+input WalletAddressAddressProjectIdCompoundUniqueInput {
+  address: String!
+  projectId: Int!
+}
+
+type WalletAddressAvgAggregate {
+  addedByUserId: Float
+  id: Float
+  projectId: Float
+}
+
+type WalletAddressCountAggregate {
+  _all: Int!
+  addedByUserId: Int!
+  address: Int!
+  id: Int!
+  projectId: Int!
+}
+
+input WalletAddressCreateManyAddedByInput {
+  address: String!
+  id: Int
+  projectId: Int!
+}
+
+input WalletAddressCreateManyAddedByInputEnvelope {
+  data: [WalletAddressCreateManyAddedByInput!]!
+  skipDuplicates: Boolean
+}
+
+input WalletAddressCreateManyInput {
+  addedByUserId: Int
+  address: String!
+  id: Int
+  projectId: Int!
+}
+
+input WalletAddressCreateManyProjectInput {
+  addedByUserId: Int
+  address: String!
+  id: Int
+}
+
+input WalletAddressCreateManyProjectInputEnvelope {
+  data: [WalletAddressCreateManyProjectInput!]!
+  skipDuplicates: Boolean
+}
+
+input WalletAddressCreateNestedManyWithoutAddedByInput {
+  connect: [WalletAddressWhereUniqueInput!]
+  connectOrCreate: [WalletAddressCreateOrConnectWithoutAddedByInput!]
+  create: [WalletAddressCreateWithoutAddedByInput!]
+  createMany: WalletAddressCreateManyAddedByInputEnvelope
+}
+
+input WalletAddressCreateNestedManyWithoutProjectInput {
+  connect: [WalletAddressWhereUniqueInput!]
+  connectOrCreate: [WalletAddressCreateOrConnectWithoutProjectInput!]
+  create: [WalletAddressCreateWithoutProjectInput!]
+  createMany: WalletAddressCreateManyProjectInputEnvelope
+}
+
+input WalletAddressCreateOrConnectWithoutAddedByInput {
+  create: WalletAddressCreateWithoutAddedByInput!
+  where: WalletAddressWhereUniqueInput!
+}
+
+input WalletAddressCreateOrConnectWithoutProjectInput {
+  create: WalletAddressCreateWithoutProjectInput!
+  where: WalletAddressWhereUniqueInput!
+}
+
+input WalletAddressCreateWithoutAddedByInput {
+  address: String!
+  project: ProjectCreateNestedOneWithoutWalletAddressesInput!
+}
+
+input WalletAddressCreateWithoutProjectInput {
+  addedBy: UserCreateNestedOneWithoutAddedWalletAddressesInput
+  address: String!
+}
+
+input WalletAddressListRelationFilter {
+  every: WalletAddressWhereInput
+  none: WalletAddressWhereInput
+  some: WalletAddressWhereInput
+}
+
+type WalletAddressMaxAggregate {
+  addedByUserId: Int
+  address: String
+  id: Int
+  projectId: Int
+}
+
+type WalletAddressMinAggregate {
+  addedByUserId: Int
+  address: String
+  id: Int
+  projectId: Int
+}
+
+input WalletAddressOrderByRelationAggregateInput {
+  _count: SortOrder
+}
+
+input WalletAddressOrderByWithRelationInput {
+  addedBy: UserOrderByWithRelationInput
+  addedByUserId: SortOrder
+  address: SortOrder
+  id: SortOrder
+  project: ProjectOrderByWithRelationInput
+  projectId: SortOrder
+}
+
+enum WalletAddressScalarFieldEnum {
+  addedByUserId
+  address
+  id
+  projectId
+}
+
+type WalletAddressSumAggregate {
+  addedByUserId: Int
+  id: Int
+  projectId: Int
+}
+
+input WalletAddressWhereInput {
+  AND: [WalletAddressWhereInput!]
+  NOT: [WalletAddressWhereInput!]
+  OR: [WalletAddressWhereInput!]
+  addedBy: UserRelationFilter
+  addedByUserId: IntNullableFilter
+  address: StringFilter
+  id: IntFilter
+  project: ProjectRelationFilter
+  projectId: IntFilter
+}
+
+input WalletAddressWhereUniqueInput {
+  address_projectId: WalletAddressAddressProjectIdCompoundUniqueInput
+  id: Int
+}

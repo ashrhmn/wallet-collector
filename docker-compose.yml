@@ -1,0 +1,13 @@
+version: "3.7"
+
+services:
+  api:
+    build:
+      context: .
+      args:
+        - PORT=${PORT:-3003}
+    image: wl-api-img
+    ports:
+      - ${PORT:-3003}:${PORT:-3003}
+    container_name: wl-api
+    restart: always

@@ -14,7 +14,25 @@
     "skipLibCheck": true,
     "skipDefaultLibCheck": true,
     "baseUrl": ".",
-    "paths": {}
+    "strictNullChecks": true,
+    "paths": {
+      "@wallet-collector/api/address": ["libs/api/address/src/index.ts"],
+      "@wallet-collector/api/auth": ["libs/api/auth/src/index.ts"],
+      "@wallet-collector/api/csv-export": ["libs/api/csv-export/src/index.ts"],
+      "@wallet-collector/api/decorators": ["libs/api/decorators/src/index.ts"],
+      "@wallet-collector/api/guards": ["libs/api/guards/src/index.ts"],
+      "@wallet-collector/api/project": ["libs/api/project/src/index.ts"],
+      "@wallet-collector/api/utils": ["libs/api/utils/src/index.ts"],
+      "@wallet-collector/config": ["libs/config/src/index.ts"],
+      "@wallet-collector/generated": ["libs/generated/src/index.ts"],
+      "@wallet-collector/generated/prisma-dto": [
+        "libs/generated/prisma-dto/src/index.ts"
+      ],
+      "@wallet-collector/generated/zeus": ["libs/generated/zeus/src/index.ts"],
+      "@wallet-collector/nest/common": ["libs/nest/common/src/index.ts"],
+      "@wallet-collector/prisma": ["libs/prisma/src/index.ts"],
+      "@wallet-collector/types": ["libs/types/src/index.ts"]
+    }
   },
   "exclude": ["node_modules", "tmp"]
 }

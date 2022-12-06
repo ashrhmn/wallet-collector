@@ -1,0 +1,62 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+generator nestgraphql {
+  provider               = "prisma-nestjs-graphql"
+  output                 = "../libs/generated/prisma-dto/src"
+  purgeOutput            = true
+  reExport               = All
+  fields_Validator_from  = "class-validator"
+  fields_Validator_input = true
+  decorate_1_type        = "*Args"
+  decorate_1_field       = data
+  decorate_1_name        = ValidateNested
+  decorate_1_from        = "class-validator"
+  decorate_1_arguments   = "[]"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+enum ROLE {
+  ADMIN
+  USER
+}
+
+model User {
+  id                   Int             @id @default(autoincrement())
+  username             String          @unique
+  email                String          @unique
+  /// @HideField({ output: true })
+  password             String
+  createdProjects      Project[]
+  roles                ROLE[]
+  addedWalletAddresses WalletAddress[]
+
+  @@map("users")
+}
+
+model Project {
+  id              Int             @id @default(autoincrement())
+  name            String?
+  author          User            @relation(fields: [authorId], references: [id])
+  authorId        Int
+  walletAddresses WalletAddress[]
+
+  @@map("projects")
+}
+
+model WalletAddress {
+  id            Int     @id @default(autoincrement())
+  address       String
+  project       Project @relation(fields: [projectId], references: [id], onDelete: Cascade)
+  projectId     Int
+  addedBy       User?   @relation(fields: [addedByUserId], references: [id])
+  addedByUserId Int?
+
+  @@unique([address, projectId])
+  @@map("wallet_addresses")
+}
