@@ -1,0 +1,33 @@
+FROM node:16 as builder
+
+WORKDIR /app
+
+COPY package.json .
+COPY yarn.lock .
+RUN yarn
+
+COPY . .
+# RUN yarn migration:run
+RUN yarn prisma generate
+RUN yarn zg
+RUN yarn build api --skip-nx-cache
+# RUN yarn seeder:run
+
+FROM node:16
+
+WORKDIR /app
+COPY package.json .
+COPY yarn.lock .
+
+RUN yarn --prod
+COPY prisma ./prisma
+RUN yarn prisma generate
+
+COPY --from=builder /app/dist/apps/api/. .
+# COPY --from=builder /app/node_modules .
+COPY .env .
+
+EXPOSE 3333
+
+CMD ["node","main.js"]
+# CMD ["node","dist/apps/api/main.js"]
