@@ -41,5 +41,7 @@ Thumbs.db
 # Next.js
 .next
 
-libs/generated
+# libs/generated
 .env*
+libs/generated/zeus/src/zeus
+libs/generated/prisma-dto/src/*
