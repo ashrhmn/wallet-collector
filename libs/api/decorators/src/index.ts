@@ -23,7 +23,7 @@ export const CurrentUser = createParamDecorator(
         HttpStatus.INTERNAL_SERVER_ERROR
       );
     const user = getUser(req);
-    console.log({ user });
+    // console.log({ user });
     return user;
   }
 );
