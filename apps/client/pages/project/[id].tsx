@@ -1,4 +1,4 @@
-import { useQuery, useQueryClient } from '@tanstack/react-query';
+import { useQuery } from '@tanstack/react-query';
 import { tmutate, tquery } from '../../tgql';
 import React, { useEffect, useMemo, useState } from 'react';
 import useDebounce from '../../hooks/useDebounce';
@@ -11,7 +11,7 @@ export const getServerSideProps: GetServerSideProps = async (c) => {
 };
 
 const ProjectPage = ({ id }: { id: number }) => {
-  const queryClient = useQueryClient();
+  // const queryClient = useQueryClient();
   const [newAddresses, setNewAddresses] = useState('');
   const [isNewAddressesValid, setIsNewAddressesValid] = useState(true);
   const [queryAddress, setQueryAddress] = useState('');
@@ -36,10 +36,6 @@ const ProjectPage = ({ id }: { id: number }) => {
           { where: { id } },
           {
             name: true,
-            walletAddresses: {
-              address: true,
-              addedBy: { username: true, email: true },
-            },
             author: { username: true },
           },
         ],
@@ -78,7 +74,7 @@ const ProjectPage = ({ id }: { id: number }) => {
         true,
       ],
     });
-    await queryClient.invalidateQueries(['project', id]);
+    // await queryClient.invalidateQueries(['project', id]);
   };
 
   const handleAddqueriedAddress = () => {
@@ -93,41 +89,23 @@ const ProjectPage = ({ id }: { id: number }) => {
 
   return (
     <div className="p-4">
-      {status === 'success' &&
+      {/* {status === 'success' &&
         data.walletAddresses &&
         data.walletAddresses.length > 0 && (
-          <div className="flex justify-end">
-            <a
-              className="text-sm text-blue-600 hover:text-white hover:bg-blue-600 transition-colors rounded p-1"
-              href={`${process.env.NEXT_PUBLIC_API}api/csv-export/${id}`}
-            >
-              Export CSV
-            </a>
-          </div>
-        )}
-      <h1 className="text-2xl text-center font-bold">Project : {data?.name}</h1>
-      <div className="flex gap-2 items-center">
-        <div>
-          <input
-            type="text"
-            className="border-2 border-gray-300 rounded w-[600px]"
-            placeholder="Add New Addresses (Comma Separated)"
-            value={newAddresses}
-            onChange={(e) => setNewAddresses(e.target.value)}
-          />
-          {newAddresses && !isNewAddressesValid && (
-            <p className="text-sm text-red-700">Contains Invalid Address(es)</p>
-          )}
-        </div>
-        {newAddresses && isNewAddressesValid && (
-          <button
-            onClick={handleAddNewAddresses}
-            className="bg-blue-700 text-white p-2 rounded"
-          >
-            Add
-          </button>
-        )}
+        )} */}
+      <div className="flex justify-end">
+        <a
+          className="text-sm text-blue-600 hover:text-white hover:bg-blue-600 transition-colors rounded p-1"
+          href={`${process.env.NEXT_PUBLIC_API}api/csv-export/${id}`}
+        >
+          Export CSV
+        </a>
       </div>
+      {status === 'success' && (
+        <h1 className="text-2xl text-center font-bold">
+          Project : {data.name || '<No Name>'}
+        </h1>
+      )}
       <div className="mx-auto">
         <input
           placeholder="Query Address"
@@ -157,7 +135,31 @@ const ProjectPage = ({ id }: { id: number }) => {
           )}
         </div>
       </div>
-      <ol>
+
+      <div className="flex gap-2 items-center">
+        <div>
+          <input
+            type="text"
+            className="border-2 border-gray-300 rounded w-[600px]"
+            placeholder="Add New Addresses (Comma Separated)"
+            value={newAddresses}
+            onChange={(e) => setNewAddresses(e.target.value)}
+          />
+          {newAddresses && !isNewAddressesValid && (
+            <p className="text-sm text-red-700">Contains Invalid Address(es)</p>
+          )}
+        </div>
+        {newAddresses && isNewAddressesValid && (
+          <button
+            onClick={handleAddNewAddresses}
+            className="bg-blue-700 text-white p-2 rounded"
+          >
+            Add
+          </button>
+        )}
+      </div>
+
+      {/* <ol>
         {status === 'success' &&
           data.walletAddresses?.map((w) => (
             <li className="flex items-end gap-3" key={w.address}>
@@ -169,7 +171,7 @@ const ProjectPage = ({ id }: { id: number }) => {
               )}
             </li>
           ))}
-      </ol>
+      </ol> */}
     </div>
   );
 };

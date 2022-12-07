@@ -3,6 +3,7 @@ import { SortOrder } from '@wallet-collector/generated/zeus';
 import Link from 'next/link';
 import React, { useState } from 'react';
 import { toast } from 'react-hot-toast';
+import FullScreenSpinner from '../components/FullScreenSpinner';
 import AuthLayout from '../components/layout/AuthLayout';
 import useAuthUser from '../hooks/useAuthUser';
 import { tmutate, tquery } from '../tgql';
@@ -61,9 +62,10 @@ const Dashboard = () => {
             Create
           </button>
         </div>
-        <div className="flex flex-wrap">
-          {status === 'success' &&
-            projects.map((project) => (
+        {status === 'loading' && <FullScreenSpinner />}
+        {status === 'success' && (
+          <div className="flex flex-wrap">
+            {projects.map((project) => (
               <div
                 key={project.id}
                 className="bg-gray-200 p-3 m-2 mt-8 rounded"
@@ -82,7 +84,8 @@ const Dashboard = () => {
                 </div>
               </div>
             ))}
-        </div>
+          </div>
+        )}
       </div>
     </AuthLayout>
   );

@@ -2,6 +2,7 @@ import { useQueryClient } from '@tanstack/react-query';
 import { useRouter } from 'next/router';
 import React, { useEffect, useState } from 'react';
 import { toast } from 'react-hot-toast';
+import FullScreenSpinner from '../components/FullScreenSpinner';
 import useAuthUser from '../hooks/useAuthUser';
 import { tquery } from '../tgql';
 
@@ -67,7 +68,7 @@ const LoginPage = () => {
         </div>
       </div>
     );
-  return <div>Loading...</div>;
+  return <FullScreenSpinner />;
 };
 
 export default LoginPage;

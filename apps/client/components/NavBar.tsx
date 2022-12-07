@@ -3,6 +3,7 @@ import Link from 'next/link';
 import { useRouter } from 'next/router';
 import React, { useEffect } from 'react';
 import useAuthUser from '../hooks/useAuthUser';
+import LoadingSpinner from './LoadingSpinner';
 
 const NavBar = () => {
   const queryClient = useQueryClient();
@@ -21,14 +22,16 @@ const NavBar = () => {
   }, [refetch, router.asPath]);
 
   return (
-    <div className="bg-gray-300 fixed l-0 r-0 t-0 h-16 w-full flex items-center justify-between px-5">
-      <div>Logo</div>
+    <div className="bg-gray-700 fixed l-0 r-0 t-0 h-16 w-full flex items-center justify-between px-5 text-gray-200">
+      <div className="w-12 h-12">
+        <img src="/favicon.ico" alt="" />
+      </div>
       {authUser === null && (
         <div>
           <Link href={'/login'}>Sign In</Link>
         </div>
       )}
-      {authUser === undefined && <div>Loading...</div>}
+      {authUser === undefined && <LoadingSpinner />}
       {authUser && (
         <div className="flex items-center gap-4">
           <Link href={`/dashboard`}>Dashboard</Link>

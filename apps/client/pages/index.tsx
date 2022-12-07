@@ -1,7 +1,13 @@
-import React from 'react';
+import { useRouter } from 'next/router';
+import React, { useEffect } from 'react';
+import FullScreenSpinner from '../components/FullScreenSpinner';
 
 const Home = () => {
-  return <div className="text-4xl bg-blue-500">Home</div>;
+  const router = useRouter();
+  useEffect(() => {
+    router.push('/dashboard');
+  }, [router]);
+  return <FullScreenSpinner />;
 };
 
 export default Home;
