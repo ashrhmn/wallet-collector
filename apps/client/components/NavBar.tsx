@@ -34,6 +34,7 @@ const NavBar = () => {
       {authUser === undefined && <LoadingSpinner />}
       {authUser && (
         <div className="flex items-center gap-4">
+          <Link href={`/change-password`}>Change Password</Link>
           <Link href={`/dashboard`}>Dashboard</Link>
           <h1>{authUser.username || authUser.email}</h1>
           <button

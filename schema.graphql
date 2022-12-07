@@ -46,6 +46,7 @@ type LoginResponseDto {
 
 type Mutation {
   addWalletAddresses(data: [WalletAddressCreateManyInput!]!, skipDuplicates: Boolean): String!
+  changePassword(confirmNewPassword: String!, newPassword: String!, oldPassword: String!): String!
   createUser(data: UserCreateInput!): User!
   createUserProject(data: ProjectCreateInputWithoutAuthor!): Project!
   deleteProject(where: ProjectWhereUniqueInput!): String!

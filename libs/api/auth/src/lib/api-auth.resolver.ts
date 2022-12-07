@@ -10,6 +10,7 @@ import { LoginResponseDto } from './dto/login-response.dto';
 import { LoginDto } from './dto/login.dto';
 import { IContext, ICurrentUser } from '@wallet-collector/types';
 import { CurrentUser } from '@wallet-collector/api/decorators';
+import { ChangePasswordDto } from './dto/change-password.dto';
 
 @Resolver()
 export class ApiAuthResolver {
@@ -47,5 +48,14 @@ export class ApiAuthResolver {
     } catch (error) {
       throw new BadRequestException(error);
     }
+  }
+
+  @Roles('ADMIN', 'USER')
+  @Mutation(() => String)
+  changePassword(
+    @Args() args: ChangePasswordDto,
+    @CurrentUser() currentUser: ICurrentUser
+  ) {
+    return this.authService.changePassword({ currentUser, args });
   }
 }

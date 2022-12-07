@@ -11,6 +11,8 @@ import { sign, verify as jwtverify } from 'jsonwebtoken';
 import { LoginResponseDto } from './dto/login-response.dto';
 import { LoginDto } from './dto/login.dto';
 import { Request } from 'express';
+import { ICurrentUser } from '@wallet-collector/types';
+import { ChangePasswordDto } from './dto/change-password.dto';
 
 @Injectable()
 export class ApiAuthService {
@@ -75,5 +77,35 @@ export class ApiAuthService {
     if (!user) throw new BadRequestException('Invalid Refresh Token');
 
     return this.generateTokens(user);
+  }
+
+  async changePassword({
+    currentUser: { id },
+    args,
+  }: {
+    currentUser: ICurrentUser;
+    args: ChangePasswordDto;
+  }) {
+    const { confirmNewPassword, newPassword, oldPassword } = args;
+
+    if (newPassword !== confirmNewPassword)
+      throw new BadRequestException('Confirm Password does not mactch');
+
+    const user = await this.prisma.user.findFirst({ where: { id } });
+    if (!user) throw new BadRequestException('Invalid Authorization');
+
+    const isCorrectPassword = await verify(user.password, oldPassword).catch(
+      () => false
+    );
+
+    if (!isCorrectPassword)
+      throw new BadRequestException('Incorrect Old Password');
+
+    await this.prisma.user.update({
+      where: { id },
+      data: { password: await hash(newPassword) },
+    });
+
+    return 'Password Updated';
   }
 }
