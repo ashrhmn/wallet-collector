@@ -5,6 +5,7 @@ import useDebounce from '../../hooks/useDebounce';
 import { QueryMode } from '@wallet-collector/generated/zeus';
 import * as ethers from 'ethers';
 import { GetServerSideProps } from 'next';
+import { toast } from 'react-hot-toast';
 
 export const getServerSideProps: GetServerSideProps = async (c) => {
   return { props: { id: +(c.query.id as string) } };
@@ -16,6 +17,7 @@ const ProjectPage = ({ id }: { id: number }) => {
   const [isNewAddressesValid, setIsNewAddressesValid] = useState(true);
   const [queryAddress, setQueryAddress] = useState('');
   const [queryFound, setQueryFound] = useState(false);
+  const [queryLoading, setQueryLoading] = useState(false);
   const isValidAddress = useMemo(
     () => (queryAddress ? ethers.utils.isAddress(queryAddress) : true),
     [queryAddress]
@@ -44,12 +46,13 @@ const ProjectPage = ({ id }: { id: number }) => {
   });
 
   useDebounce(
-    () => {
+    async () => {
       if (!queryAddress) {
         setQueryFound(false);
         return;
       }
-      tquery({
+      setQueryLoading(true);
+      await tquery({
         walletAddressExists: [
           {
             where: {
@@ -61,19 +64,26 @@ const ProjectPage = ({ id }: { id: number }) => {
         ],
       })
         .then((res) => res.walletAddressExists)
-        .then(setQueryFound);
+        .then(setQueryFound)
+        .catch(() => toast.error('Error Searching For Address'));
+      setQueryLoading(false);
     },
     700,
     [queryAddress]
   );
 
+  useDebounce(() => setQueryLoading(true), 0, [queryAddress]);
+
   const addAddresses = async (addresses: string[]) => {
-    await tmutate({
-      addWalletAddresses: [
-        { data: addresses.map((address) => ({ address, projectId: id })) },
-        true,
-      ],
-    });
+    await toast.promise(
+      tmutate({
+        addWalletAddresses: [
+          { data: addresses.map((address) => ({ address, projectId: id })) },
+          true,
+        ],
+      }),
+      { loading: 'Updating...', error: 'Error', success: 'Success' }
+    );
     // await queryClient.invalidateQueries(['project', id]);
   };
 
@@ -117,23 +127,25 @@ const ProjectPage = ({ id }: { id: number }) => {
         {!isValidAddress && (
           <p className="text-sm text-red-800">Invalid Wallet Address</p>
         )}
-        <div className="flex items-center gap-3 text-sm mt-2">
-          {!!queryAddress && (
-            <p>
-              {queryFound
-                ? 'Address already added'
-                : 'Queried Address not found'}
-            </p>
-          )}
-          {!!queryAddress && !queryFound && isValidAddress && (
-            <button
-              onClick={handleAddqueriedAddress}
-              className="bg-blue-700 rounded p-1 text-white"
-            >
-              Add It
-            </button>
-          )}
-        </div>
+        {!queryLoading && isValidAddress && (
+          <div className="flex items-center gap-3 text-sm mt-2">
+            {!!queryAddress && (
+              <p>
+                {queryFound
+                  ? 'Address already added'
+                  : 'Queried Address not found'}
+              </p>
+            )}
+            {!!queryAddress && !queryFound && isValidAddress && (
+              <button
+                onClick={handleAddqueriedAddress}
+                className="bg-blue-700 rounded p-1 text-white"
+              >
+                Add It
+              </button>
+            )}
+          </div>
+        )}
       </div>
 
       <div className="flex gap-2 items-center">
