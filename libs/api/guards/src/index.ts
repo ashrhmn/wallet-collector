@@ -38,6 +38,7 @@ export const Roles = (...roles: ROLE[]) => SetMetadata('roles', roles);
 
 export const getUser = (request: Request) => {
   const accessToken = request.headers.authorization;
+  console.log(request.headers);
   if (!accessToken || typeof accessToken !== 'string') return null;
   try {
     return verify(
