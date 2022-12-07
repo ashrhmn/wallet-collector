@@ -6,11 +6,20 @@ export class ApiCsvExportService {
   constructor(private readonly prisma: PrismaService) {}
 
   async getCsvExportFile(id: number) {
-    return await this.prisma.walletAddress
+    const data = await this.prisma.walletAddress
       .findMany({
         where: { projectId: id },
-        select: { address: true },
+        select: {
+          address: true,
+          addedBy: { select: { username: true, email: true } },
+        },
       })
-      .then((res) => res.map((r) => r.address));
+      .then((res) =>
+        res.map((r) =>
+          [r.address, r.addedBy?.username || r.addedBy?.email || ''].join(',')
+        )
+      );
+
+    return 'address,added_by\n' + data.join('\n');
   }
 }

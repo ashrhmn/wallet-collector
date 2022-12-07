@@ -10,6 +10,6 @@ export class ApiCsvExportController {
   async exportCsv(@Param('id') id: string, @Res() res: Response) {
     const data = await this.csvExportService.getCsvExportFile(+id);
     res.contentType('text/plain');
-    res.attachment('export.csv').send(data.join('\n'));
+    res.attachment('export.csv').send(data);
   }
 }
