@@ -52,7 +52,7 @@ export class ApiAddressService {
     const addedByUserId = currentUser ? currentUser.id : null;
     const projectIds = Array.from(new Set(args.data.map((d) => d.projectId)));
 
-    if (projectIds.length > 1)
+    if (projectIds.length !== 1)
       throw new BadRequestException('Add addresses to one project at a time');
 
     const existingAddresses = await this.prisma.walletAddress
