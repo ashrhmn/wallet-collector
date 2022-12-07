@@ -4,7 +4,6 @@ import {
   CreateManyWalletAddressArgs,
   FindFirstWalletAddressArgs,
   FindManyWalletAddressArgs,
-  UpsertOneWalletAddressArgs,
   WalletAddress,
 } from '@wallet-collector/generated/prisma-dto';
 import { PrismaService } from '@wallet-collector/prisma';
@@ -51,8 +50,6 @@ export class ApiAddressService {
     currentUser: ICurrentUser;
   }): Promise<string> {
     const addedByUserId = currentUser ? currentUser.id : null;
-    console.log({ addedByUserId });
-
     const projectIds = Array.from(new Set(args.data.map((d) => d.projectId)));
 
     if (projectIds.length > 1)
