@@ -15,7 +15,7 @@ export const CurrentUser = createParamDecorator(
       http: context.switchToHttp().getRequest(),
       graphql: GqlExecutionContext.create(context).getContext().req,
     }[context.getType() as string];
-    console.log({ req });
+    // console.log({ req });
 
     if (!req)
       throw new HttpException(

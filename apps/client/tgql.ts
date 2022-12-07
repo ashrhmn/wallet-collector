@@ -8,6 +8,7 @@ export const tgql = Thunder(async (query) => {
       'Content-Type': 'application/json',
       access_token: localStorage.getItem('access_token') || '',
       refresh_token: localStorage.getItem('refresh_token') || '',
+      Authorization: 'Bearer ' + localStorage.getItem('access_token') || '',
     },
   });
 

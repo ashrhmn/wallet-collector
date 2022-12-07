@@ -31,7 +31,7 @@ const useAuthUser = () => {
   }, [refetcher]);
 
   useEffect(() => {
-    const id = setInterval(authFn, 2000);
+    const id = setInterval(authFn, 5000);
     return () => clearInterval(id);
   }, []);
 

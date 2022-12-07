@@ -37,13 +37,13 @@ export class RolesGuard implements CanActivate {
 export const Roles = (...roles: ROLE[]) => SetMetadata('roles', roles);
 
 export const getUser = (request: Request) => {
-  const accessToken = request.headers.access_token;
+  const accessToken = request.headers.authorization;
   if (!accessToken || typeof accessToken !== 'string') return null;
   try {
-    return verify(accessToken, CONFIG.JWT.SECRET.ACCESS) as Omit<
-      User,
-      'password'
-    >;
+    return verify(
+      accessToken.split(' ')[1] || '',
+      CONFIG.JWT.SECRET.ACCESS
+    ) as Omit<User, 'password'>;
   } catch (error) {
     return null;
   }
