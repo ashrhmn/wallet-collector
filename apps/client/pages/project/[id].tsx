@@ -7,7 +7,7 @@ import * as ethers from 'ethers';
 import { GetServerSideProps } from 'next';
 import { toast } from 'react-hot-toast';
 import axios from 'axios';
-import useAuthUser from 'apps/client/hooks/useAuthUser';
+import useAuthUser from '../../hooks/useAuthUser';
 
 export const getServerSideProps: GetServerSideProps = async (c) => {
   return { props: { id: +(c.query.id as string) } };

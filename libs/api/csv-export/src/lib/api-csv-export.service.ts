@@ -13,7 +13,16 @@ export class ApiCsvExportService {
     id: number;
     currentUser: ICurrentUser;
   }) {
-    // if (!currentUser) throw new BadRequestException('Unauthenticated');
+    const project = await this.prisma.project.findFirst({
+      where: { id },
+      select: { authorId: true },
+    });
+
+    if (!project) throw new BadRequestException('Project Not Found');
+
+    if (currentUser.id !== project.authorId)
+      throw new BadRequestException('Unauthorized');
+
     const data = await this.prisma.walletAddress
       .findMany({
         where: { projectId: id },
