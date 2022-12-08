@@ -1,11 +1,19 @@
-import { Injectable } from '@nestjs/common';
+import { BadRequestException, Injectable } from '@nestjs/common';
 import { PrismaService } from '@wallet-collector/prisma';
+import { ICurrentUser } from '@wallet-collector/types';
 
 @Injectable()
 export class ApiCsvExportService {
   constructor(private readonly prisma: PrismaService) {}
 
-  async getCsvExportFile(id: number) {
+  async getCsvExportFile({
+    id,
+    currentUser,
+  }: {
+    id: number;
+    currentUser: ICurrentUser;
+  }) {
+    // if (!currentUser) throw new BadRequestException('Unauthenticated');
     const data = await this.prisma.walletAddress
       .findMany({
         where: { projectId: id },

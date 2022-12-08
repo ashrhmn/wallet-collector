@@ -6,6 +6,8 @@ import { QueryMode } from '@wallet-collector/generated/zeus';
 import * as ethers from 'ethers';
 import { GetServerSideProps } from 'next';
 import { toast } from 'react-hot-toast';
+import axios from 'axios';
+import useAuthUser from 'apps/client/hooks/useAuthUser';
 
 export const getServerSideProps: GetServerSideProps = async (c) => {
   return { props: { id: +(c.query.id as string) } };
@@ -22,6 +24,8 @@ const ProjectPage = ({ id }: { id: number }) => {
     () => (queryAddress ? ethers.utils.isAddress(queryAddress) : true),
     [queryAddress]
   );
+
+  const { authUser } = useAuthUser();
 
   useEffect(() => {
     if (newAddresses) {
@@ -97,20 +101,44 @@ const ProjectPage = ({ id }: { id: number }) => {
     setNewAddresses('');
   };
 
+  const handleExport = async () => {
+    axios({
+      url: `${process.env.NEXT_PUBLIC_API}api/csv-export/${id}`,
+      method: 'GET',
+      responseType: 'blob',
+      headers: {
+        Authorization: `Bearer ${localStorage.getItem('access_token') || ''}`,
+      },
+    })
+      .then((response) => {
+        const href = URL.createObjectURL(response.data);
+        const link = document.createElement('a');
+        link.href = href;
+        link.setAttribute('download', 'export.csv');
+        document.body.appendChild(link);
+        link.click();
+        document.body.removeChild(link);
+        URL.revokeObjectURL(href);
+      })
+      .catch(() => toast.error('Error exporting CSV'));
+  };
+
   return (
     <div className="p-4">
       {/* {status === 'success' &&
         data.walletAddresses &&
         data.walletAddresses.length > 0 && (
         )} */}
-      <div className="flex justify-end">
-        <a
-          className="text-sm text-blue-600 hover:text-white hover:bg-blue-600 transition-colors rounded p-1"
-          href={`${process.env.NEXT_PUBLIC_API}api/csv-export/${id}`}
-        >
-          Export CSV
-        </a>
-      </div>
+      {!!authUser && (
+        <div className="flex justify-end">
+          <button
+            onClick={handleExport}
+            className="text-sm text-blue-600 hover:text-white hover:bg-blue-600 transition-colors rounded p-1"
+          >
+            Export CSV
+          </button>
+        </div>
+      )}
       {status === 'success' && (
         <h1 className="text-2xl text-center font-bold">
           Project : {data.name || '<No Name>'}

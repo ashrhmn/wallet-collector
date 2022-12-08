@@ -6,7 +6,12 @@ const prisma = new PrismaClient();
 async function main() {
   const password = await hash('password');
   await prisma.user.create({
-    data: { username: 'admin', password, email: '', roles: ['ADMIN', 'USER'] },
+    data: {
+      username: 'admin',
+      password,
+      email: 'admin@hydromint.xyz',
+      roles: ['ADMIN', 'USER'],
+    },
   });
 }
 
