@@ -1,4 +1,4 @@
-FROM node:16 as builder
+FROM node:16-alpine3.14 as builder
 
 WORKDIR /app
 
@@ -13,7 +13,7 @@ RUN yarn zg
 RUN yarn build api --skip-nx-cache
 # RUN yarn seeder:run
 
-FROM node:16
+FROM node:16-alpine3.14
 
 WORKDIR /app
 COPY package.json .
