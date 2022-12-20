@@ -34,6 +34,7 @@ export const GqlSelect = createParamDecorator(
       const select = new PrismaSelect(info).value;
       return select;
     } catch (error) {
+      console.warn(`GqlSelect Error : ${error}`);
       return {};
     }
   }
