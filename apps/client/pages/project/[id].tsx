@@ -30,7 +30,10 @@ const ProjectPage = ({ id }: { id: number }) => {
   useEffect(() => {
     if (newAddresses) {
       setIsNewAddressesValid(
-        newAddresses.split(',').every(ethers.utils.isAddress)
+        newAddresses
+          .split(',')
+          .map((a) => a.trim())
+          .every(ethers.utils.isAddress)
       );
     }
   }, [newAddresses]);
@@ -97,7 +100,12 @@ const ProjectPage = ({ id }: { id: number }) => {
   };
 
   const handleAddNewAddresses = () => {
-    addAddresses(newAddresses.split(',').filter(ethers.utils.isAddress));
+    addAddresses(
+      newAddresses
+        .split(',')
+        .map((a) => a.trim())
+        .filter(ethers.utils.isAddress)
+    );
     setNewAddresses('');
   };
 
