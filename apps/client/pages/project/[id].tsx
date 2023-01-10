@@ -158,7 +158,7 @@ const ProjectPage = ({ id }: { id: number }) => {
           className="border-2 border-gray-300 rounded w-[600px]"
           type="text"
           value={queryAddress}
-          onChange={(e) => setQueryAddress(e.target.value)}
+          onChange={(e) => setQueryAddress(e.target.value.trim())}
         />
         {!isValidAddress && (
           <p className="text-sm text-red-800">Invalid Wallet Address</p>
